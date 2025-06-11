@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Green Version</title>
+    <style>
+        /* Estilos verdes (mejorados) */
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 style="color: #27ae60;">Versión Experimental (GREEN)</h1>
+    <h2 style="color: #16a085;">v2.0</h2>
+    <p th:text="'Hora del servidor: ' + ${T(java.time.LocalDateTime).now().format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm:ss'))}"></p>
+
+    <!-- Indicador de ambiente -->
+    <div style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+        ">
+        AMBIENTE DE PRUEBAS
+    </div>
+</div>
+</body>
+</html>
