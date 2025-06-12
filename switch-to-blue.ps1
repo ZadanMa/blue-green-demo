@@ -1,5 +1,16 @@
-# Cambia a versión BLUE
-kubectl patch svc myapp-service -p '{\"spec\":{\"selector\":{\"version\":\"blue\"}}}' --type=merge --v=0
+# Cambia a versión GREEN
+kubectl config set-context --current --namespace=blue-green-demo
+
+# Construir el JSON como objeto y escribirlo a un archivo temporal
+$patch = @{ spec = @{ selector = @{ version = "blue" } } } | ConvertTo-Json -Depth 3 -Compress
+$tempFile = [System.IO.Path]::GetTempFileName()
+Set-Content -Path $tempFile -Value $patch -Encoding UTF8
+
+# Aplicar el patch desde archivo
+kubectl patch svc myapp-service -n blue-green-demo --type=merge --patch-file $tempFile
+
+# Limpiar archivo temporal (opcional)
+Remove-Item $tempFile
 
 Write-Host "`n[SUCCESS] Tráfico redirigido a versión BLUE" -ForegroundColor Green
 Write-Host "============================================" -ForegroundColor Cyan
